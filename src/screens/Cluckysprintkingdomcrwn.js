@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import CluckySprintKingdomLayout from '../Cluckysprintkingdomcmpnts/CluckySprintKingdomLayout';
+import CluckySprintKingdomLayout from '../components/CluckySprintKingdomLayout';
 import Share from 'react-native-share';
 import RNFS from 'react-native-fs';
 import { captureRef } from 'react-native-view-shot';

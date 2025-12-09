@@ -12,13 +12,13 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 
 const Cluckysprintkingdomwlcm = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const navigation = useNavigation();
+  const [currentCluckySprintIndex, setCurrentCluckySprintIndex] = useState(0);
+  const nav = useNavigation();
 
   return (
     <ImageBackground
       source={
-        currentIndex === 0
+        currentCluckySprintIndex === 0
           ? require('../../assets/images/cluckySprintbgonb.png')
           : require('../../assets/images/cluckySprintbg.png')
       }
@@ -29,7 +29,7 @@ const Cluckysprintkingdomwlcm = () => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.wlcmwrap}>
-          {currentIndex === 1 && (
+          {currentCluckySprintIndex === 1 && (
             <>
               <Image
                 source={require('../../assets/images/cluckySprintonb1.png')}
@@ -41,7 +41,7 @@ const Cluckysprintkingdomwlcm = () => {
               />
             </>
           )}
-          {currentIndex === 2 && (
+          {currentCluckySprintIndex === 2 && (
             <Image
               source={require('../../assets/images/cluckySprintonb3.png')}
               style={{ marginBottom: 40 }}
@@ -54,9 +54,9 @@ const Cluckysprintkingdomwlcm = () => {
           >
             <View style={styles.cluckySprintWelcomeContainer}>
               <Text style={styles.cluckySprintWelcomeText}>
-                {currentIndex === 0
+                {currentCluckySprintIndex === 0
                   ? `Welcome to Clucky Sprint Kingdom! Get ready for an egg-citing adventure filled with fun challenges and`
-                  : currentIndex === 1
+                  : currentCluckySprintIndex === 1
                   ? `During the game you get different fruits.
 With them, additional backgrounds for decoration become available.`
                   : `After a certain number of levels, special crowns appear.
@@ -66,9 +66,9 @@ Collect them to personalize your space in the game.`}
               <TouchableOpacity
                 activeOpacity={0.6}
                 onPress={() =>
-                  currentIndex === 2
-                    ? navigation.navigate('Cluckysprintkingdomhm')
-                    : setCurrentIndex(currentIndex + 1)
+                  currentCluckySprintIndex === 2
+                    ? nav.navigate('Cluckysprintkingdomhm')
+                    : setCurrentCluckySprintIndex(currentCluckySprintIndex + 1)
                 }
               >
                 <ImageBackground
@@ -82,9 +82,9 @@ Collect them to personalize your space in the game.`}
                   }}
                 >
                   <Text style={styles.cluckySprintBtnText}>
-                    {currentIndex === 0
+                    {currentCluckySprintIndex === 0
                       ? `HELLO`
-                      : currentIndex === 1
+                      : currentCluckySprintIndex === 1
                       ? `GOOD`
                       : `START`}
                   </Text>

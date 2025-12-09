@@ -16,7 +16,7 @@ import {
   Share,
   ScrollView,
 } from 'react-native';
-import { cluckysprintlevels } from '../Cluckysprintkingdomcnsts/cluckysprintlevels';
+import { cluckysprintlevels } from '../data/cluckysprintlevels';
 import Orientation from 'react-native-orientation-locker';
 
 const { height, width } = Dimensions.get('window');

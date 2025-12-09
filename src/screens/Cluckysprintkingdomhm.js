@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { cluckysprintlevels } from '../Cluckysprintkingdomcnsts/cluckysprintlevels';
+import { cluckysprintlevels } from '../data/cluckysprintlevels';
 import {
   Image,
   ImageBackground,
@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import CluckySprintKingdomLayout from '../Cluckysprintkingdomcmpnts/CluckySprintKingdomLayout';
+import CluckySprintKingdomLayout from '../components/CluckySprintKingdomLayout';
 
 const CLUCKY_LEVEL_KEY = 'cluckySprintLevel';
 
