@@ -16,34 +16,18 @@ import {
   Share,
   ScrollView,
 } from 'react-native';
-import { cluckysprintlevels } from '../data/cluckysprintlevels';
+import { cluckysprintlevels } from '../CluckySprintKingdomData/cluckysprintlevels';
 import Orientation from 'react-native-orientation-locker';
-
+import {
+  cluckySprintKingdomFruitImages,
+  cluckySprintKingdomWallpapers,
+} from '../CluckySprintKingdomConsts/cluckySprintKingdomAssets';
 const { height, width } = Dimensions.get('window');
-
-const CLUCKY_LEVEL_KEY = 'cluckySprintLevel';
-const CLUCKY_CROWNS_KEY = 'cluckySprintCrowns';
-const FRUIT_BANK_KEY = 'cluckySprintFruitBank';
-const SELECTED_WALLPAPER_KEY = 'cluckySprintKingdomSelectedWallpaper';
-
-const cluckySprintKingdomWallpapers = {
-  0: require('../../assets/images/cluckySprintbg.png'),
-  1: require('../../assets/images/cluckySprintBg1.png'),
-  2: require('../../assets/images/cluckySprintBg2.png'),
-};
-
-const cluckySprintKingdomFruitImages = {
-  orange: require('../../assets/images/cluckySprintFruit1.png'),
-  grape: require('../../assets/images/cluckySprintFruit2.png'),
-  lemon: require('../../assets/images/cluckySprintFruit3.png'),
-  cherry: require('../../assets/images/cluckySprintFruit4.png'),
-};
 
 const cluckySprintKingdomLevels = cluckysprintlevels;
 
 const Cluckysprintkingdomgmpl = () => {
   const cluckySprintKingdomNavigation = useNavigation();
-
   const [cluckySprintKingdomScreen, setCluckySprintKingdomScreen] =
     useState('intro');
   const [cluckySprintKingdomLevel, setCluckySprintKingdomLevel] = useState(1);
@@ -99,15 +83,23 @@ const Cluckysprintkingdomgmpl = () => {
   useEffect(() => {
     const cluckySprintKingdomLoadProgress = async () => {
       try {
-        const lvl = await AsyncStorage.getItem(CLUCKY_LEVEL_KEY);
-        const cr = await AsyncStorage.getItem(CLUCKY_CROWNS_KEY);
-        const fb = await AsyncStorage.getItem(FRUIT_BANK_KEY);
-        const wp = await AsyncStorage.getItem(SELECTED_WALLPAPER_KEY);
+        const cluckySprintLvl = await AsyncStorage.getItem(CLUCKY_LEVEL_KEY);
+        const cluckySprintCrwn = await AsyncStorage.getItem(CLUCKY_CROWNS_KEY);
+        const cluckySprintFruits = await AsyncStorage.getItem(FRUIT_BANK_KEY);
+        const cluckySprintWallpaper = await AsyncStorage.getItem(
+          SELECTED_WALLPAPER_KEY,
+        );
 
-        if (lvl) setCluckySprintKingdomLevel(parseInt(lvl, 10));
-        if (cr) setCluckySprintKingdomCrowns(parseInt(cr, 10));
-        if (fb) setCluckySprintKingdomFruitBank(JSON.parse(fb));
-        if (wp) setCluckySprintKingdomSelectedWallpaper(parseInt(wp, 10));
+        if (cluckySprintLvl)
+          setCluckySprintKingdomLevel(parseInt(cluckySprintLvl, 10));
+        if (cluckySprintCrwn)
+          setCluckySprintKingdomCrowns(parseInt(cluckySprintCrwn, 10));
+        if (cluckySprintFruits)
+          setCluckySprintKingdomFruitBank(JSON.parse(cluckySprintFruits));
+        if (cluckySprintWallpaper)
+          setCluckySprintKingdomSelectedWallpaper(
+            parseInt(cluckySprintWallpaper, 10),
+          );
       } catch (e) {}
     };
 
@@ -120,18 +112,18 @@ const Cluckysprintkingdomgmpl = () => {
   };
 
   const cluckySprintKingdomResetCollectedForNeeds = needsObj => {
-    const init = {};
+    const cluckySprintInitialValue = {};
     Object.keys(needsObj).forEach(k => {
-      init[k] = 0;
+      cluckySprintInitialValue[k] = 0;
     });
-    return init;
+    return cluckySprintInitialValue;
   };
 
-  const cluckySprintKingdomSumNeeds = needsObj =>
-    Object.values(needsObj).reduce((acc, v) => acc + v, 0);
+  const cluckySprintKingdomSumNeeds = newObj =>
+    Object.values(newObj).reduce((acc, v) => acc + v, 0);
 
-  const cluckySprintKingdomSumCollected = collObj =>
-    Object.values(collObj).reduce((acc, v) => acc + v, 0);
+  const cluckySprintKingdomSumCollected = collectedObj =>
+    Object.values(collectedObj).reduce((acc, v) => acc + v, 0);
 
   const cluckySprintKingdomClearLoops = () => {
     if (cluckySprintKingdomTimerRef.current) {
@@ -148,14 +140,14 @@ const Cluckysprintkingdomgmpl = () => {
 
   const cluckySprintKingdomStartLevel = lvl => {
     cluckySprintKingdomClearLoops();
-    const data = cluckySprintKingdomGetLevelData(lvl);
+    const cluckySprintData = cluckySprintKingdomGetLevelData(lvl);
     const initialCollected = cluckySprintKingdomResetCollectedForNeeds(
-      data.needs,
+      cluckySprintData.needs,
     );
 
-    setCluckySprintKingdomNeeds(data.needs);
+    setCluckySprintKingdomNeeds(cluckySprintData.needs);
     setCluckySprintKingdomCollected(initialCollected);
-    setCluckySprintKingdomTimeLeft(data.time);
+    setCluckySprintKingdomTimeLeft(cluckySprintData.time);
     setCluckySprintKingdomFruits([]);
     setCluckySprintKingdomScreen('game');
 
@@ -170,23 +162,36 @@ const Cluckysprintkingdomgmpl = () => {
     }, 1000);
 
     cluckySprintKingdomSpawnRef.current = setInterval(() => {
-      cluckySprintKingdomSpawnFruit(data.needs);
+      cluckySprintKingdomSpawnFruit(cluckySprintData.needs);
     }, 700);
   };
 
   const cluckySprintKingdomSpawnFruit = needsObj => {
-    const fruitTypesAll = Object.keys(cluckySprintKingdomFruitImages);
-    const needTypes = Object.keys(needsObj);
-    const pool = [...needTypes, ...needTypes, ...fruitTypesAll];
-    const type = pool[Math.floor(Math.random() * pool.length)] || 'orange';
-    const startX = Math.random() * (width - 80) + 20;
-    const anim = new Animated.Value(-60);
-    const id = Date.now().toString() + Math.random().toString();
+    const cluckySprintFruitTypesAll = Object.keys(
+      cluckySprintKingdomFruitImages,
+    );
+    const cluckySprintNeedTypes = Object.keys(needsObj);
+    const cluckySprintPool = [
+      ...cluckySprintNeedTypes,
+      ...cluckySprintNeedTypes,
+      ...cluckySprintFruitTypesAll,
+    ];
+    const cluckySprintType =
+      cluckySprintPool[Math.floor(Math.random() * cluckySprintPool.length)] ||
+      'orange';
+    const cluckySprintStartX = Math.random() * (width - 80) + 20;
+    const cluckySprintAnim = new Animated.Value(-60);
+    const cluckySprintId = Date.now().toString() + Math.random().toString();
 
-    const fruit = { id, type, x: startX, anim };
+    const fruit = {
+      id: cluckySprintId,
+      type: cluckySprintType,
+      x: cluckySprintStartX,
+      anim: cluckySprintAnim,
+    };
     setCluckySprintKingdomFruits(prev => [...prev, fruit]);
 
-    Animated.timing(anim, {
+    Animated.timing(cluckySprintAnim, {
       toValue: height + 80,
       duration: 4000,
       easing: Easing.linear,
@@ -196,20 +201,20 @@ const Cluckysprintkingdomgmpl = () => {
     });
   };
 
-  const cluckySprintKingdomOnFruitPress = fruit => {
-    const { type, id } = fruit;
+  const cluckySprintKingdomOnFruitPress = selectedFruit => {
+    const { type, id } = selectedFruit;
 
     setCluckySprintKingdomFruits(prev => prev.filter(f => f.id !== id));
 
     if (!cluckySprintKingdomNeeds[type]) return;
 
     setCluckySprintKingdomCollected(prev => {
-      const current = prev[type];
-      const max = cluckySprintKingdomNeeds[type];
+      const cluckySprintCurrent = prev[type];
+      const cluckySprintMax = cluckySprintKingdomNeeds[type];
 
-      if (current >= max) return prev;
+      if (cluckySprintCurrent >= cluckySprintMax) return prev;
 
-      const updated = { ...prev, [type]: current + 1 };
+      const updated = { ...prev, [type]: cluckySprintCurrent + 1 };
 
       if (
         cluckySprintKingdomSumCollected(updated) >=
@@ -222,15 +227,19 @@ const Cluckysprintkingdomgmpl = () => {
     });
   };
 
-  const cluckySprintKingdomAddFruitsToBank = async collectedObj => {
-    const updated = { ...cluckySprintKingdomFruitBank };
+  const cluckySprintKingdomAddFruitsToBank = async collectedObjects => {
+    const cluckySprintUpdated = { ...cluckySprintKingdomFruitBank };
 
-    Object.keys(collectedObj).forEach(key => {
-      updated[key] = (updated[key] || 0) + collectedObj[key];
+    Object.keys(collectedObjects).forEach(key => {
+      cluckySprintUpdated[key] =
+        (cluckySprintUpdated[key] || 0) + collectedObjects[key];
     });
 
-    setCluckySprintKingdomFruitBank(updated);
-    await AsyncStorage.setItem(FRUIT_BANK_KEY, JSON.stringify(updated));
+    setCluckySprintKingdomFruitBank(cluckySprintUpdated);
+    await AsyncStorage.setItem(
+      FRUIT_BANK_KEY,
+      JSON.stringify(cluckySprintUpdated),
+    );
   };
 
   const cluckySprintKingdomFinishLevel = (
@@ -239,33 +248,37 @@ const Cluckysprintkingdomgmpl = () => {
   ) => {
     cluckySprintKingdomClearLoops();
 
-    const data = cluckySprintKingdomGetLevelData(cluckySprintKingdomLevel);
-    const finalCollected = overrideCollected || cluckySprintKingdomCollected;
+    const cluckySprintData = cluckySprintKingdomGetLevelData(
+      cluckySprintKingdomLevel,
+    );
+    const cluckySprintFinalCollected =
+      overrideCollected || cluckySprintKingdomCollected;
 
-    let success = true;
-    Object.keys(data.needs).forEach(k => {
-      if ((finalCollected[k] || 0) !== data.needs[k]) success = false;
+    let cluckySprintSuccess = true;
+    Object.keys(cluckySprintData.needs).forEach(k => {
+      if ((cluckySprintFinalCollected[k] || 0) !== cluckySprintData.needs[k])
+        cluckySprintSuccess = false;
     });
 
-    let earned = false;
-    if (success) {
-      earned = true;
+    let cluckySprintEarned = false;
+    if (cluckySprintSuccess) {
+      cluckySprintEarned = true;
       const newCrowns = cluckySprintKingdomCrowns + 1;
       setCluckySprintKingdomCrowns(newCrowns);
       AsyncStorage.setItem(CLUCKY_CROWNS_KEY, String(newCrowns));
     }
 
-    if (success) {
-      cluckySprintKingdomAddFruitsToBank(finalCollected);
+    if (cluckySprintSuccess) {
+      cluckySprintKingdomAddFruitsToBank(cluckySprintFinalCollected);
       const newLevel = Math.min(cluckySprintKingdomLevel + 1, 50);
       setCluckySprintKingdomLevel(newLevel);
       AsyncStorage.setItem(CLUCKY_LEVEL_KEY, String(newLevel));
     }
 
-    setCluckySprintKingdomResultSuccess(success);
-    setCluckySprintKingdomResultCrownEarned(earned);
-    setCluckySprintKingdomResultNeeds(data.needs);
-    setCluckySprintKingdomResultCollected(finalCollected);
+    setCluckySprintKingdomResultSuccess(cluckySprintSuccess);
+    setCluckySprintKingdomResultCrownEarned(cluckySprintEarned);
+    setCluckySprintKingdomResultNeeds(cluckySprintData.needs);
+    setCluckySprintKingdomResultCollected(cluckySprintFinalCollected);
     setCluckySprintKingdomFruits([]);
     setCluckySprintKingdomScreen('result');
   };
@@ -283,13 +296,13 @@ const Cluckysprintkingdomgmpl = () => {
 
   const cluckySprintKingdomOnShare = async () => {
     try {
-      const message = cluckySprintKingdomResultSuccess
+      const cluckySprintMessage = cluckySprintKingdomResultSuccess
         ? `I completed level ${
             cluckySprintKingdomLevel - 1
           } and collected ${cluckySprintKingdomCrowns} crowns in Clucky Sprint Kingdom!`
         : `Level failed ${cluckySprintKingdomLevel} in Clucky Sprint Kingdom.`;
 
-      await Share.share({ message });
+      await Share.share({ message: cluckySprintMessage });
     } catch (e) {}
   };
 
@@ -298,7 +311,10 @@ const Cluckysprintkingdomgmpl = () => {
       sec % 60,
     ).padStart(2, '0')}`;
 
-  const cluckySprintKingdomRenderFruitCounters = (needsObj, collObj) => (
+  const cluckySprintKingdomRenderFruitCounters = (
+    cluckySprintNeedsObj,
+    cluckySprintCollObj,
+  ) => (
     <View
       style={{
         flexDirection: 'row',
@@ -308,9 +324,11 @@ const Cluckysprintkingdomgmpl = () => {
         flexWrap: 'wrap',
       }}
     >
-      {Object.keys(needsObj).map(key => {
-        const need = needsObj[key];
-        const have = collObj ? collObj[key] || 0 : need;
+      {Object.keys(cluckySprintNeedsObj).map(key => {
+        const cluckySprintNeed = cluckySprintNeedsObj[key];
+        const cluckySprintHave = cluckySprintCollObj
+          ? cluckySprintCollObj[key] || 0
+          : cluckySprintNeed;
 
         return (
           <View
@@ -328,7 +346,7 @@ const Cluckysprintkingdomgmpl = () => {
               resizeMode="contain"
             />
             <Text style={styles.cluckySprintKingdomFruitCounterText}>
-              {have}
+              {cluckySprintHave}
             </Text>
           </View>
         );
@@ -387,7 +405,9 @@ The fruits can be used to unlock new backgrounds in the corresponding section.`}
   );
 
   const cluckySprintKingdomRenderGame = () => {
-    const data = cluckySprintKingdomGetLevelData(cluckySprintKingdomLevel);
+    const cluckySprintKingdomData = cluckySprintKingdomGetLevelData(
+      cluckySprintKingdomLevel,
+    );
 
     return (
       <ImageBackground
@@ -407,7 +427,7 @@ The fruits can be used to unlock new backgrounds in the corresponding section.`}
             >
               <View style={styles.cluckySprintKingdomWelcomeContainer}>
                 <Text style={styles.cluckySprintKingdomLevelTitle}>
-                  LEVEL {data.id}
+                  LEVEL {cluckySprintKingdomData.id}
                 </Text>
                 {cluckySprintKingdomRenderFruitCounters(
                   cluckySprintKingdomNeeds,
@@ -475,7 +495,7 @@ The fruits can be used to unlock new backgrounds in the corresponding section.`}
   };
 
   const cluckySprintKingdomRenderResult = () => {
-    const label = cluckySprintKingdomResultSuccess
+    const cluckySprintLabel = cluckySprintKingdomResultSuccess
       ? cluckySprintKingdomLevel - 1
       : cluckySprintKingdomLevel;
 
@@ -497,7 +517,7 @@ The fruits can be used to unlock new backgrounds in the corresponding section.`}
             >
               <View style={styles.cluckySprintKingdomWelcomeContainerCompleted}>
                 <Text style={styles.cluckySprintKingdomResultTitle}>
-                  LEVEL {label}{' '}
+                  LEVEL {cluckySprintLabel}{' '}
                   {cluckySprintKingdomResultSuccess ? 'Completed' : 'False'}
                 </Text>
 
@@ -739,3 +759,8 @@ const styles = StyleSheet.create({
 });
 
 export default Cluckysprintkingdomgmpl;
+
+const CLUCKY_LEVEL_KEY = 'cluckySprintLevel';
+const CLUCKY_CROWNS_KEY = 'cluckySprintCrowns';
+const FRUIT_BANK_KEY = 'cluckySprintFruitBank';
+const SELECTED_WALLPAPER_KEY = 'cluckySprintKingdomSelectedWallpaper';

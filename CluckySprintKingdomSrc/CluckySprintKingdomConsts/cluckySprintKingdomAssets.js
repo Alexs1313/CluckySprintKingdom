@@ -1,10 +1,17 @@
-import React from 'react';
-import { WebView } from 'react-native-webview';
-import { View, StyleSheet } from 'react-native';
-import CluckySprintKingdomLayout from './CluckySprintKingdomLayout';
+export const cluckySprintKingdomFruitImages = {
+  orange: require('../../assets/images/cluckySprintFruit1.png'),
+  grape: require('../../assets/images/cluckySprintFruit2.png'),
+  lemon: require('../../assets/images/cluckySprintFruit3.png'),
+  cherry: require('../../assets/images/cluckySprintFruit4.png'),
+};
 
-const CluckySprintKingdomLoader = () => {
-  const hellPathHtmlLoader = `
+export const cluckySprintKingdomWallpapers = {
+  0: require('../../assets/images/cluckySprintbg.png'),
+  1: require('../../assets/images/cluckySprintBg1.png'),
+  2: require('../../assets/images/cluckySprintBg2.png'),
+};
+
+export const htmlLoader = `
 <!DOCTYPE html>
 <html>
   <head>
@@ -88,27 +95,3 @@ const CluckySprintKingdomLoader = () => {
   </body>
 </html>
   `;
-
-  return (
-    <CluckySprintKingdomLayout>
-      <View style={styles.loaderwrap}>
-        <WebView
-          originWhitelist={['*']}
-          source={{ html: hellPathHtmlLoader }}
-          style={{ width: 220, height: 200, backgroundColor: 'transparent' }}
-          scrollEnabled={false}
-        />
-      </View>
-    </CluckySprintKingdomLayout>
-  );
-};
-
-const styles = StyleSheet.create({
-  loaderwrap: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
-
-export default CluckySprintKingdomLoader;

@@ -1,7 +1,6 @@
-import React, { useCallback, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useCallback } from 'react';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { cluckysprintlevels } from '../data/cluckysprintlevels';
+import { cluckysprintlevels } from '../CluckySprintKingdomData/cluckysprintlevels';
 import {
   Image,
   ImageBackground,
@@ -10,31 +9,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import CluckySprintKingdomLayout from '../components/CluckySprintKingdomLayout';
-
-const CLUCKY_LEVEL_KEY = 'cluckySprintLevel';
-
-const cluckySprintKingdomFruitImages = {
-  orange: require('../../assets/images/cluckySprintFruit1.png'),
-  grape: require('../../assets/images/cluckySprintFruit2.png'),
-  lemon: require('../../assets/images/cluckySprintFruit3.png'),
-  cherry: require('../../assets/images/cluckySprintFruit4.png'),
-};
+import CluckySprintKingdomLayout from '../CustomComponents/CluckySprintKingdomLayout';
+import { useStore } from '../CluckySprintKingdomStorage/cluckySprintKingdomContext';
+import { cluckySprintKingdomFruitImages } from '../CluckySprintKingdomConsts/cluckySprintKingdomAssets';
 
 const Cluckysprintkingdomhm = () => {
   const cluckySprintKingdomNavigation = useNavigation();
-
-  const [cluckySprintKingdomCurrentLevel, setCluckySprintKingdomCurrentLevel] =
-    useState(1);
+  const { cluckySprintKingdomCurrentLevel, cluckySprintKingdomLoadLevel } =
+    useStore();
 
   useFocusEffect(
     useCallback(() => {
-      const cluckySprintKingdomLoadLevel = async () => {
-        try {
-          const lvl = await AsyncStorage.getItem(CLUCKY_LEVEL_KEY);
-          if (lvl) setCluckySprintKingdomCurrentLevel(parseInt(lvl, 10));
-        } catch (e) {}
-      };
       cluckySprintKingdomLoadLevel();
     }, []),
   );

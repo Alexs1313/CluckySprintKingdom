@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import CluckySprintKingdomLayout from '../components/CluckySprintKingdomLayout';
+import CluckySprintKingdomLayout from '../CustomComponents/CluckySprintKingdomLayout';
 import Share from 'react-native-share';
 import RNFS from 'react-native-fs';
 import { captureRef } from 'react-native-view-shot';
@@ -32,7 +32,6 @@ const cluckySprintKingdomWallpaperImage = require('../../assets/images/cluckySpr
 
 const Cluckysprintkingdomcrwn = () => {
   const navigation = useNavigation();
-
   const [cluckySprintKingdomScreen, setCluckySprintKingdomScreen] =
     useState('info');
   const [cluckySprintKingdomCrowns, setCluckySprintKingdomCrowns] = useState(0);
@@ -47,26 +46,37 @@ const Cluckysprintkingdomcrwn = () => {
 
   const cluckySprintKingdomLoadProgress = async () => {
     try {
-      const lvl = await AsyncStorage.getItem(cluckySprintKingdomLevelKey);
-      const cr = await AsyncStorage.getItem(cluckySprintKingdomCrownsKey);
+      const cluckySprintLvl = await AsyncStorage.getItem(
+        cluckySprintKingdomLevelKey,
+      );
+      const cluckySprintCrown = await AsyncStorage.getItem(
+        cluckySprintKingdomCrownsKey,
+      );
 
-      if (lvl) setCluckySprintKingdomCurrentLevel(parseInt(lvl, 10));
-      if (cr) setCluckySprintKingdomCrowns(parseInt(cr, 10));
+      if (cluckySprintLvl)
+        setCluckySprintKingdomCurrentLevel(parseInt(cluckySprintLvl, 10));
+      if (cluckySprintCrown)
+        setCluckySprintKingdomCrowns(parseInt(cluckySprintCrown, 10));
     } catch {}
   };
 
   const cluckySprintKingdomShareWallpaper = async () => {
     try {
-      const tmpUri = await captureRef(cluckySprintKingdomImageRef, {
-        format: 'png',
-        quality: 1,
-        result: 'tmpfile',
-      });
+      const cluckySprintShareUri = await captureRef(
+        cluckySprintKingdomImageRef,
+        {
+          format: 'png',
+          quality: 1,
+          result: 'tmpfile',
+        },
+      );
 
-      let fileUri = tmpUri.startsWith('file://') ? tmpUri : 'file://' + tmpUri;
-      const pathToCheck = fileUri.replace('file://', '');
-      const exists = await RNFS.exists(pathToCheck);
-      if (!exists) return;
+      let fileUri = cluckySprintShareUri.startsWith('file://')
+        ? cluckySprintShareUri
+        : 'file://' + cluckySprintShareUri;
+      const pathToCheckCluckySprint = fileUri.replace('file://', '');
+      const cluckySprintExists = await RNFS.exists(pathToCheckCluckySprint);
+      if (!cluckySprintExists) return;
 
       await Share.open({
         title: 'Wallpaper from Thai Dreams with Flowers',
@@ -75,7 +85,7 @@ const Cluckysprintkingdomcrwn = () => {
         failOnCancel: false,
       });
     } catch (error) {
-      if (!error?.message?.includes('User did not share')) {
+      if (!error?.message?.includes('error')) {
         console.error(error);
       }
     }

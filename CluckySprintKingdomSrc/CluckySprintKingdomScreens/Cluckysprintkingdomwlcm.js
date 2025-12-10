@@ -6,7 +6,6 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -63,7 +62,7 @@ With them, additional backgrounds for decoration become available.`
 Collect them to personalize your space in the game.`}
               </Text>
 
-              <TouchableOpacity
+              <View
                 activeOpacity={0.6}
                 onPress={() =>
                   currentCluckySprintIndex === 2
@@ -89,7 +88,7 @@ Collect them to personalize your space in the game.`}
                       : `START`}
                   </Text>
                 </ImageBackground>
-              </TouchableOpacity>
+              </View>
             </View>
           </LinearGradient>
         </View>
@@ -117,10 +116,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#720022',
     margin: 2,
     paddingVertical: 40,
+    minHeight: 340,
   },
   cluckySprintWelcomeText: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
     textAlign: 'center',
     paddingHorizontal: 20,

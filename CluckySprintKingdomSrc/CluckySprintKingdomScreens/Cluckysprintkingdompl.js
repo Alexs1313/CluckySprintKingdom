@@ -1,26 +1,19 @@
 import { useNavigation } from '@react-navigation/native';
-import CluckySprintKingdomLayout from '../components/CluckySprintKingdomLayout';
 import {
   Dimensions,
   Image,
   ImageBackground,
-  Share,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import CluckySprintKingdomLayout from '../CustomComponents/CluckySprintKingdomLayout';
 
 const { height } = Dimensions.get('window');
 
-const Cluckysprintkingdominf = () => {
+const Cluckysprintkingdompl = () => {
   const navigation = useNavigation();
-
-  const CluckySprintShareInfo = async () => {
-    await Share.share({
-      message: `Clucky Sprint Kingdom is a fast-paced fruit sprint where you run through short levels, crush the right fruits, and move on. As you play, you'll unlock crowns and new backgrounds that you can use to decorate. Simple gameplay, bright art, and gradual discoveries make each level enjoyable and easy.`,
-    });
-  };
 
   return (
     <CluckySprintKingdomLayout>
@@ -31,27 +24,30 @@ const Cluckysprintkingdominf = () => {
           onPress={() => navigation.goBack()}
         >
           <Image source={require('../../assets/images/cluckySprintBack.png')} />
-          <Text style={styles.cluckySprintBackText}>INFO</Text>
+          <Text style={styles.cluckySprintBackText}>START PLAY</Text>
         </TouchableOpacity>
 
-        <Image
-          source={require('../../assets/images/cluckySprintInfoLogo.png')}
-        />
-
         <Text style={styles.cluckySprintFruitInfoText}>
-          Clucky Sprint Kingdom is a fast-paced fruit sprint where you run
-          through short levels, crush the right fruits, and move on. As you
-          play, you'll unlock crowns and new backgrounds that you can use to
-          decorate. Simple gameplay, bright art, and gradual discoveries make
-          each level enjoyable and easy.
+          {`Fruits appear in each level.
+
+Click only the ones you need for that level.
+
+Complete the tasks within the allotted time.
+
+After completing the levels, you get different fruits.
+
+The fruits can be used to unlock new backgrounds in the corresponding section.`}
         </Text>
 
-        <TouchableOpacity activeOpacity={0.6} onPress={CluckySprintShareInfo}>
+        <TouchableOpacity
+          activeOpacity={0.6}
+          onPress={() => navigation.navigate('Cluckysprintkingdomgmpl')}
+        >
           <ImageBackground
             source={require('../../assets/images/cluckySprintbtn.png')}
             style={styles.cluckySprintBtn}
           >
-            <Text style={styles.cluckySprintBtnText}>SHARE</Text>
+            <Text style={styles.cluckySprintBtnText}>START PLAY</Text>
           </ImageBackground>
         </TouchableOpacity>
       </View>
@@ -64,8 +60,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingTop: height * 0.08,
+    justifyContent: 'space-between',
     padding: 17,
-    paddingBottom: 30,
+    paddingBottom: 70,
   },
   cluckySprintBtnText: {
     color: '#6D1300',
@@ -86,6 +83,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     marginTop: 21,
     lineHeight: 26,
+    textAlign: 'center',
   },
   cluckySprintBackText: {
     color: '#FFFFFF',
@@ -96,9 +94,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 18,
-    marginBottom: 46,
     alignSelf: 'flex-start',
   },
 });
 
-export default Cluckysprintkingdominf;
+export default Cluckysprintkingdompl;
