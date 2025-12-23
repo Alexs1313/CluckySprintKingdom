@@ -10,33 +10,12 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import CluckySprintKingdomLayout from '../CustomComponents/CluckySprintKingdomLayout';
+import CluckySprintKingdomLayout from '../CluckyKingdomSprintComponents/CluckySprintKingdomLayout';
+import { cluckySprintKingdomWallpapers } from '../CluckyKingdomSprintConsts/cluckySprintKingdomWallpapers';
 
 const { height } = Dimensions.get('window');
 
-const cluckySprintKingdomWallpapers = [
-  {
-    id: 0,
-    price: 0,
-    image: require('../../assets/images/cluckySprintbg.png'),
-  },
-  {
-    id: 1,
-    price: 3,
-    image: require('../../assets/images/cluckySprintBg1.png'),
-  },
-  {
-    id: 2,
-    price: 3,
-    image: require('../../assets/images/cluckySprintBg2.png'),
-  },
-];
-
-const cluckySprintKingdomFruitKey = 'cluckySprintFruitBank';
-const cluckySprintKingdomBoughtKey = 'cluckySprintKingdomWallpapersBought';
-const cluckySprintKingdomSelectedKey = 'cluckySprintKingdomSelectedWallpaper';
-
-const CluckysprintkingdomMarket = () => {
+const CluckyKingdomSprintMarket = () => {
   const navigation = useNavigation();
   const [cluckySprintKingdomFruits, setCluckySprintKingdomFruits] = useState({
     orange: 0,
@@ -57,13 +36,13 @@ const CluckysprintkingdomMarket = () => {
 
   const cluckySprintKingdomLoadData = async () => {
     const cluckySprintKingdomFruitsData = await AsyncStorage.getItem(
-      cluckySprintKingdomFruitKey,
+      'cluckySprintFruitBank',
     );
     const cluckySprintKingdomBoughtData = await AsyncStorage.getItem(
-      cluckySprintKingdomBoughtKey,
+      'cluckySprintKingdomWallpapersBought',
     );
     const cluckySprintKingdomSelectedData = await AsyncStorage.getItem(
-      cluckySprintKingdomSelectedKey,
+      'cluckySprintKingdomSelectedWallpaper',
     );
 
     if (cluckySprintKingdomFruitsData)
@@ -76,24 +55,27 @@ const CluckysprintkingdomMarket = () => {
       );
   };
 
-  const cluckySprintKingdomSaveBought = async cluckySprintKingdomUpdated => {
-    setCluckySprintKingdomBought(cluckySprintKingdomUpdated);
+  const cluckySprintKingdomSaveBought = async updatedValue => {
+    setCluckySprintKingdomBought(updatedValue);
     await AsyncStorage.setItem(
-      cluckySprintKingdomBoughtKey,
-      JSON.stringify(cluckySprintKingdomUpdated),
+      'cluckySprintKingdomWallpapersBought',
+      JSON.stringify(updatedValue),
     );
   };
 
   const cluckySprintKingdomSaveSelected = async id => {
     setCluckySprintKingdomSelected(id);
-    await AsyncStorage.setItem(cluckySprintKingdomSelectedKey, String(id));
+    await AsyncStorage.setItem(
+      'cluckySprintKingdomSelectedWallpaper',
+      String(id),
+    );
   };
 
-  const cluckySprintKingdomSaveFruits = async cluckySprintKingdomUpdated => {
-    setCluckySprintKingdomFruits(cluckySprintKingdomUpdated);
+  const cluckySprintKingdomSaveFruits = async updatedValue => {
+    setCluckySprintKingdomFruits(updatedValue);
     await AsyncStorage.setItem(
-      cluckySprintKingdomFruitKey,
-      JSON.stringify(cluckySprintKingdomUpdated),
+      'cluckySprintFruitBank',
+      JSON.stringify(updatedValue),
     );
   };
 
@@ -190,7 +172,9 @@ const CluckysprintkingdomMarket = () => {
         {cluckySprintKingdomState === 'unlocked' && (
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => cluckySprintKingdomSaveSelected(wp.id)}
+            onPress={() =>
+              cluckySprintKingdomSaveSelected(cluckySprintWallpaper.id)
+            }
           >
             <ImageBackground
               source={require('../../assets/images/cluckySprintbtn.png')}
@@ -298,9 +282,9 @@ const styles = StyleSheet.create({
   },
   cluckySprintKingdomActionBtnText: {
     color: '#6D1300',
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: '900',
   },
 });
 
-export default CluckysprintkingdomMarket;
+export default CluckyKingdomSprintMarket;

@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import CluckySprintKingdomLayout from '../CustomComponents/CluckySprintKingdomLayout';
+import CluckySprintKingdomLayout from '../CluckyKingdomSprintComponents/CluckySprintKingdomLayout';
 import {
   Dimensions,
   Image,
@@ -13,7 +13,7 @@ import {
 
 const { height } = Dimensions.get('window');
 
-const Cluckysprintkingdominf = () => {
+const CluckyKingdomSprintInfo = () => {
   const navigation = useNavigation();
 
   const CluckySprintShareInfo = async () => {
@@ -36,6 +36,7 @@ const Cluckysprintkingdominf = () => {
 
         <Image
           source={require('../../assets/images/cluckySprintInfoLogo.png')}
+          style={{ width: 219, height: 219, borderRadius: 62 }}
         />
 
         <Text style={styles.cluckySprintFruitInfoText}>
@@ -101,4 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Cluckysprintkingdominf;
+export default CluckyKingdomSprintInfo;

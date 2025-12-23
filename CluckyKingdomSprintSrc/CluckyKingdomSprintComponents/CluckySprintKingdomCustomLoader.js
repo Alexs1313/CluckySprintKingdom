@@ -3,15 +3,15 @@ import { WebView } from 'react-native-webview';
 import { View, StyleSheet } from 'react-native';
 import CluckySprintKingdomLayout from './CluckySprintKingdomLayout';
 import { useNavigation } from '@react-navigation/native';
-import { htmlLoader } from '../CluckySprintKingdomConsts/cluckySprintKingdomAssets';
+import { htmlLoader } from '../CluckyKingdomSprintConsts/cluckySprintKingdomAssets';
 
 const CluckySprintKingdomCustomLoader = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate('Cluckysprintkingdomwlcm');
-    }, 5500);
+      navigation.navigate('CluckyKingdomSprintStartOnboard');
+    }, 5000);
   }, []);
 
   return (

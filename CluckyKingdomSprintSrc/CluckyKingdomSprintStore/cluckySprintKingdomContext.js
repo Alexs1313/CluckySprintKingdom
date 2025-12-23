@@ -20,7 +20,9 @@ export const ContextProvider = ({ children }) => {
         setCluckySprintKingdomCurrentLevel(
           parseInt(cluckySprintKingdomLvl, 10),
         );
-    } catch (e) {}
+    } catch (error) {
+      console.log('error');
+    }
   };
 
   const cluckySprintKingdomValues = {

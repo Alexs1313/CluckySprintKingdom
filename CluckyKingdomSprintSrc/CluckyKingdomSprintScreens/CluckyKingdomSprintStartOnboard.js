@@ -9,8 +9,9 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import CluckySprintKingdomButton from '../CluckyKingdomSprintComponents/CluckySprintKingdomButton';
 
-const Cluckysprintkingdomwlcm = () => {
+const CluckyKingdomSprintStartOnboard = () => {
   const [currentCluckySprintIndex, setCurrentCluckySprintIndex] = useState(0);
   const nav = useNavigation();
 
@@ -62,33 +63,22 @@ With them, additional backgrounds for decoration become available.`
 Collect them to personalize your space in the game.`}
               </Text>
 
-              <View
-                activeOpacity={0.6}
+              <View style={{ marginTop: 40 }} />
+
+              <CluckySprintKingdomButton
                 onPress={() =>
                   currentCluckySprintIndex === 2
-                    ? nav.navigate('Cluckysprintkingdomhm')
+                    ? nav.navigate('CluckyKingdomSprintHome')
                     : setCurrentCluckySprintIndex(currentCluckySprintIndex + 1)
                 }
-              >
-                <ImageBackground
-                  source={require('../../assets/images/cluckySprintbtn.png')}
-                  style={{
-                    marginTop: 55,
-                    width: 242,
-                    height: 103,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Text style={styles.cluckySprintBtnText}>
-                    {currentCluckySprintIndex === 0
-                      ? `HELLO`
-                      : currentCluckySprintIndex === 1
-                      ? `GOOD`
-                      : `START`}
-                  </Text>
-                </ImageBackground>
-              </View>
+                btnTitle={
+                  currentCluckySprintIndex === 0
+                    ? `HELLO`
+                    : currentCluckySprintIndex === 1
+                    ? `GOOD`
+                    : `START`
+                }
+              />
             </View>
           </LinearGradient>
         </View>
@@ -125,12 +115,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: 20,
   },
-  cluckySprintBtnText: {
-    color: '#6D1300',
-    fontSize: 24,
-    fontWeight: '900',
-    textAlign: 'center',
-  },
 });
 
-export default Cluckysprintkingdomwlcm;
+export default CluckyKingdomSprintStartOnboard;

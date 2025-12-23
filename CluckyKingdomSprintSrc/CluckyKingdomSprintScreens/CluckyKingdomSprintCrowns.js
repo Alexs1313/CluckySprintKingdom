@@ -10,13 +10,10 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import CluckySprintKingdomLayout from '../CustomComponents/CluckySprintKingdomLayout';
+import CluckySprintKingdomLayout from '../CluckyKingdomSprintComponents/CluckySprintKingdomLayout';
 import Share from 'react-native-share';
 import RNFS from 'react-native-fs';
 import { captureRef } from 'react-native-view-shot';
-
-const cluckySprintKingdomLevelKey = 'cluckySprintLevel';
-const cluckySprintKingdomCrownsKey = 'cluckySprintCrowns';
 
 const { height } = Dimensions.get('window');
 
@@ -30,7 +27,7 @@ const cluckySprintKingdomCrownImages = [
 
 const cluckySprintKingdomWallpaperImage = require('../../assets/images/cluckySprintWall.png');
 
-const Cluckysprintkingdomcrwn = () => {
+const CluckyKingdomSprintCrowns = () => {
   const navigation = useNavigation();
   const [cluckySprintKingdomScreen, setCluckySprintKingdomScreen] =
     useState('info');
@@ -46,11 +43,9 @@ const Cluckysprintkingdomcrwn = () => {
 
   const cluckySprintKingdomLoadProgress = async () => {
     try {
-      const cluckySprintLvl = await AsyncStorage.getItem(
-        cluckySprintKingdomLevelKey,
-      );
+      const cluckySprintLvl = await AsyncStorage.getItem('cluckySprintLevel');
       const cluckySprintCrown = await AsyncStorage.getItem(
-        cluckySprintKingdomCrownsKey,
+        'cluckySprintCrowns',
       );
 
       if (cluckySprintLvl)
@@ -71,16 +66,19 @@ const Cluckysprintkingdomcrwn = () => {
         },
       );
 
-      let fileUri = cluckySprintShareUri.startsWith('file://')
+      let savedCluckySprintUri = cluckySprintShareUri.startsWith('file://')
         ? cluckySprintShareUri
         : 'file://' + cluckySprintShareUri;
-      const pathToCheckCluckySprint = fileUri.replace('file://', '');
+      const pathToCheckCluckySprint = savedCluckySprintUri.replace(
+        'file://',
+        '',
+      );
       const cluckySprintExists = await RNFS.exists(pathToCheckCluckySprint);
       if (!cluckySprintExists) return;
 
       await Share.open({
         title: 'Wallpaper from Thai Dreams with Flowers',
-        url: fileUri,
+        url: savedCluckySprintUri,
         type: 'image/png',
         failOnCancel: false,
       });
@@ -407,4 +405,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Cluckysprintkingdomcrwn;
+export default CluckyKingdomSprintCrowns;
